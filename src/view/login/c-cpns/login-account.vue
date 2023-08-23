@@ -24,6 +24,7 @@ import { ElMessage } from 'element-plus'
 import { useLoginStore } from '@/store/module/login'
 import { type IAccount } from './types/login_type'
 import { localCache } from '@/utils/cache'
+import router from '@/router/index'
 const props = defineProps({
   isKeepPwd: {
     type: Boolean,
@@ -65,23 +66,29 @@ const formRef = ref<InstanceType<typeof ElForm>>()
 const loginStore = useLoginStore()
 function loginAction() {
   formRef.value?.validate((valid) => {
+    // 判断输入格式是否有误
     if (valid) {
+      // 拿取登录信息，并保存
       const { account, pwd } = formAccount
       const accounts: IAccount = {
         name: account,
         password: pwd
       }
-      loginStore.loginAccountAction(accounts)
-      if (props.isKeepPwd) {
-        localCache.setCache('account', { ...accounts, isKeepPwd: true })
-      } else {
-        localCache.setCache('account', {
-          name: accounts.name,
-          isKeepPwd: false
-        })
-      }
+      loginStore.loginAccountAction(accounts).then((res) => {
+        router.push('/main')
+
+        //记住密码逻辑
+        if (props.isKeepPwd) {
+          localCache.setCache('account', { ...accounts, isKeepPwd: true })
+        } else {
+          localCache.setCache('account', {
+            name: accounts.name,
+            isKeepPwd: false
+          })
+        }
+      })
     } else {
-      ElMessage.error('Oops, this is a error message.')
+      ElMessage.error('格式错误，请修改')
     }
   })
 }

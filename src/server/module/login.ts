@@ -6,3 +6,9 @@ export const accountLogin = function (account: any) {
     data: account
   })
 }
+
+export function getUserInfo(id: number) {
+  return dongRequest.get({
+    url: `/users/${id}`
+  })
+}
