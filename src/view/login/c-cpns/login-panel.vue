@@ -39,7 +39,7 @@ import LoginAccount from './login-account.vue'
 import LoginPhone from './login-phone.vue'
 import { localCache } from '@/utils/cache'
 import { ref } from 'vue'
-const isKeepPwd = ref(localCache.getCache('account').isKeepPwd ? true : false)
+const isKeepPwd = ref(localCache.getCache('account')?.isKeepPwd ? true : false)
 const activeName = ref<string>('account')
 
 const accountRef = ref<InstanceType<typeof LoginAccount>>()

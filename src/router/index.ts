@@ -16,7 +16,18 @@ const router = createRouter({
     {
       name: 'main',
       path: '/main',
-      component: () => import('@/view/main/Main.vue')
+      component: () => import('@/view/main/Main.vue'),
+      children: [
+        {
+          path: '/main/analysis/overview',
+          component: () => import('@/view/main/analysis/cor-technology.vue')
+        },
+        {
+          path: '/main/analysis/dashboard',
+          component: () =>
+            import('@/view/main/analysis/merchandise-statistics.vue')
+        }
+      ]
     },
     {
       path: '/:pathMatch(.*)',
@@ -29,7 +40,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   // 登陆的守卫
   const token = localCache.getCache('cmssToken')
-  if (to.path === '/main' && !token) {
+  if (to.path !== '/login' && !token) {
     return '/login'
   }
 })

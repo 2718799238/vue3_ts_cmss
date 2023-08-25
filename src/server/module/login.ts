@@ -12,3 +12,9 @@ export function getUserInfo(id: number) {
     url: `/users/${id}`
   })
 }
+
+export function getUserMenuByRoleId(id: number) {
+  return dongRequest.get({
+    url: `/role/${id}/menu`
+  })
+}
