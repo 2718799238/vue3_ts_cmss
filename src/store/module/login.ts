@@ -6,6 +6,8 @@ import {
 } from '@/server/module/login'
 import { type IAccount } from '@/view/login/c-cpns/types/login_type'
 import { localCache } from '@/utils/cache'
+import { mapMenusRouter } from '../../utils/mapMenusRouter'
+import router from '@/router'
 
 interface IState {
   token: string
@@ -14,9 +16,9 @@ interface IState {
 }
 export const useLoginStore = defineStore('login', {
   state: (): IState => ({
-    token: localCache.getCache('cmssToken') ?? '',
-    userInfo: localCache.getCache('userInfo') ?? {},
-    userMenus: localCache.getCache('userMenus') ?? []
+    token: '',
+    userInfo: {},
+    userMenus: []
   }),
   actions: {
     async loginAccountAction(account: IAccount) {
@@ -38,6 +40,27 @@ export const useLoginStore = defineStore('login', {
 
       localCache.setCache('userInfo', this.userInfo)
       localCache.setCache('userMenus', this.userMenus)
+
+      // 映射动态路由，并添加
+      const mapRouter = mapMenusRouter(this.userMenus)
+      mapRouter.forEach((item) => {
+        router.addRoute('main', item)
+      })
+    },
+    async localRouterAction() {
+      const token: string = localCache.getCache('cmssToken')
+      const userInfo: any = localCache.getCache('userInfo')
+      const userMenus: any = localCache.getCache('userMenus')
+      if (token && userInfo && userMenus) {
+        this.token = token
+        this.userInfo = userInfo
+        this.userMenus = userMenus
+        // 映射动态路由，并添加
+        const mapRouter = mapMenusRouter(this.userMenus)
+        mapRouter.forEach((item) => {
+          router.addRoute('main', item)
+        })
+      }
     }
   }
 })

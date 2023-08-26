@@ -9,7 +9,7 @@
         background-color="#0c2135"
         active-text-color="#fff"
         text-color="#b7bdc3"
-        :default-active="userMenus[0].children[0].id + ''"
+        :default-active="firstMenu"
         :collapse="isCollapse"
       >
         <!-- <el-sub-menu class="sub" index="1">
@@ -52,20 +52,35 @@
 
 <script setup lang="ts">
 import { useLoginStore } from '@/store/module/login'
-import { useRouter } from 'vue-router'
-const router = useRouter()
-const loginStore = useLoginStore()
-const { userInfo, userMenus } = loginStore
+
+import { useRouter, useRoute } from 'vue-router'
+import { firstPage, mapPathToMenu } from '../../utils/mapMenusRouter'
+import { ref } from 'vue'
+import { useMainStore } from '@/store/module/main'
+
 defineProps({
   isCollapse: {
     type: Boolean,
     default: false
   }
 })
+const router = useRouter()
+const route = useRoute()
+const loginStore = useLoginStore()
+const { userMenus } = loginStore
+const mainStore = useMainStore()
 // console.log(userMenus)
 function toPage(url: string) {
   router.push(url)
+  mainStore.mapPathToBread(url, userMenus)
 }
+// 第一次加载打开的menu
+const path = route.path
+const firstPath = mapPathToMenu(path, userMenus)
+const firstMenu = ref<string>(firstPath.id + '')
+mainStore.mapPathToBread(path, userMenus)
+
+// 面包些数据
 </script>
 
 <style scoped lang="less">

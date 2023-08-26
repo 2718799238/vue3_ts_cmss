@@ -1,6 +1,7 @@
 import { localCache } from '@/utils/cache'
-import { createRouter, createWebHashHistory } from 'vue-router'
 
+import { createRouter, createWebHashHistory } from 'vue-router'
+import { firstPage } from '../utils/mapMenusRouter'
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -16,18 +17,7 @@ const router = createRouter({
     {
       name: 'main',
       path: '/main',
-      component: () => import('@/view/main/Main.vue'),
-      children: [
-        {
-          path: '/main/analysis/overview',
-          component: () => import('@/view/main/analysis/cor-technology.vue')
-        },
-        {
-          path: '/main/analysis/dashboard',
-          component: () =>
-            import('@/view/main/analysis/merchandise-statistics.vue')
-        }
-      ]
+      component: () => import('@/view/main/Main.vue')
     },
     {
       path: '/:pathMatch(.*)',
@@ -40,8 +30,11 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   // 登陆的守卫
   const token = localCache.getCache('cmssToken')
-  if (to.path !== '/login' && !token) {
+  if (to.path.startsWith('/main') && !token) {
     return '/login'
+  }
+  if (to.path === '/main') {
+    return firstPage?.url
   }
 })
 export default router

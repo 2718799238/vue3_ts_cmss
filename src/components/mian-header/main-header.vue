@@ -6,7 +6,7 @@
       /></el-icon>
     </div>
     <div class="content">
-      <div class="breadcrumb">面包屑</div>
+      <headerBread></headerBread>
       <userInfo></userInfo>
     </div>
   </div>
@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import userInfo from './user-info.vue'
+import headerBread from './header-bread.vue'
 import { ref } from 'vue'
 
 const emit = defineEmits(['isFold'])
