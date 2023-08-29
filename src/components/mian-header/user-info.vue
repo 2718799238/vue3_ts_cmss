@@ -2,7 +2,10 @@
   <div class="user-info">
     <div class="left">
       <el-icon><Message /></el-icon>
-      <el-icon><ChatLineRound /></el-icon>
+      <el-icon>
+        <div class="dot"></div>
+        <ChatLineRound
+      /></el-icon>
       <el-icon><Search /></el-icon>
     </div>
     <div class="right">
@@ -76,5 +79,12 @@ function handlEexit() {
 }
 .el-dropdown:deep(:focus-visible) {
   outline: none;
+}
+.dot {
+  position: absolute;
+  right: -1px;
+  top: -0px;
+  border: 3px solid rgb(254, 3, 3);
+  border-radius: 50%;
 }
 </style>

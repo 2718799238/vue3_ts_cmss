@@ -1,5 +1,7 @@
+import router from '@/router'
 import { type RouteRecordRaw } from 'vue-router'
 
+// 第一次打开main的路由路径
 export let firstPage: any | null = null
 const mapRouter: RouteRecordRaw[] = []
 export function mapMenusRouter(userMenus: any[]) {
@@ -16,8 +18,17 @@ export function mapMenusRouter(userMenus: any[]) {
     localRouter.push(module.default)
   }
   for (const submenu of userMenus) {
+    // 第一层路由
+    if (!localRouter.find((item) => item.path === submenu.url)) {
+      router.addRoute('main', {
+        path: submenu.url,
+        redirect: submenu.children[0].url
+      })
+    }
+
     for (const menu of submenu.children) {
       const route = localRouter.find((item) => item.path === menu.url)
+      // 第二层路由
       if (route) {
         mapRouter.push(route)
         if (!firstPage) {

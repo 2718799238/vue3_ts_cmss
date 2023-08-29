@@ -54,8 +54,8 @@
 import { useLoginStore } from '@/store/module/login'
 
 import { useRouter, useRoute } from 'vue-router'
-import { firstPage, mapPathToMenu } from '../../utils/mapMenusRouter'
-import { ref } from 'vue'
+import { mapPathToMenu } from '../../utils/mapMenusRouter'
+import { computed } from 'vue'
 import { useMainStore } from '@/store/module/main'
 
 defineProps({
@@ -66,19 +66,27 @@ defineProps({
 })
 const router = useRouter()
 const route = useRoute()
+
 const loginStore = useLoginStore()
 const { userMenus } = loginStore
+
 const mainStore = useMainStore()
 // console.log(userMenus)
 function toPage(url: string) {
   router.push(url)
   mainStore.mapPathToBread(url, userMenus)
 }
+
 // 第一次加载打开的menu
-const path = route.path
-const firstPath = mapPathToMenu(path, userMenus)
-const firstMenu = ref<string>(firstPath.id + '')
-mainStore.mapPathToBread(path, userMenus)
+
+const firstMenu = computed(() => {
+  const path = route.path
+  const firstPath = mapPathToMenu(path, userMenus)
+  mainStore.mapPathToBread(path, userMenus)
+  console.log(11)
+
+  return firstPath.id + ''
+})
 
 // 面包些数据
 </script>

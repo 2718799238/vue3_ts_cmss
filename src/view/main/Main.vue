@@ -20,12 +20,17 @@
 <script setup lang="ts">
 import mainMenu from '@/components/main-menu/main-menu.vue'
 import mainHeader from '@/components/mian-header/main-header.vue'
+import { useMainStore } from '@/store/module/main'
 
 import { ref } from 'vue'
 const isCollapse = ref(false)
 function handlerFold(e: boolean) {
   isCollapse.value = e
 }
+
+// main的公共数据
+const mainStore = useMainStore()
+mainStore.fetchgetDorR()
 </script>
 
 <style scoped lang="less">
@@ -50,6 +55,7 @@ function handlerFold(e: boolean) {
       transition: width 0.3s linear;
     }
     .el-main {
+      background-color: #f0f2f5;
     }
   }
 }
