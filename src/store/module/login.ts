@@ -32,7 +32,9 @@ export const useLoginStore = defineStore('login', {
       this.userInfo = userInfo.data.data
 
       // 获取用户菜单树
-      const userMenusRes = await getUserMenuByRoleId(id)
+      const userMenusRes = await getUserMenuByRoleId(
+        userInfo.data?.data.role?.id
+      )
       // console.log(userMenusRes.data.data)
       this.userMenus = userMenusRes.data.data
 

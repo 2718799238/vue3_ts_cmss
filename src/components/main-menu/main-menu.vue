@@ -83,7 +83,6 @@ const firstMenu = computed(() => {
   const path = route.path
   const firstPath = mapPathToMenu(path, userMenus)
   mainStore.mapPathToBread(path, userMenus)
-  console.log(11)
 
   return firstPath.id + ''
 })

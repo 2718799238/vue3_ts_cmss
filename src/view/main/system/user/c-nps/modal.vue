@@ -62,7 +62,6 @@ import { ElNotification } from 'element-plus'
 const isShowModal = ref(false)
 
 let newUserForm = reactive<any>({
-  id: '',
   name: '',
   realname: '',
   password: '',
@@ -70,7 +69,6 @@ let newUserForm = reactive<any>({
   roleId: 1,
   departmentId: 1
 })
-
 // 控制新件窗口
 defineExpose({ onClickNew })
 const isEdit = ref(false)
@@ -81,6 +79,7 @@ function onClickNew(form: any) {
     for (const key in newUserForm) {
       newUserForm[key] = form.form[key]
     }
+    newUserForm.id = form.form.id
   } else {
     for (const key in newUserForm) {
       newUserForm[key] = ''
@@ -95,11 +94,9 @@ const userStore = useUserStore()
 function onNewUserClick() {
   isShowModal.value = false
   // console.log(newUserForm)
+  // 编辑
   if (isEdit.value) {
-    const { password, ...form } = newUserForm
-    console.log(form)
-
-    userStore.fetchEditUser(form).then((res: any) => {
+    userStore.fetchEditUser(newUserForm).then((res: any) => {
       ElNotification({
         title: '提示',
         message: h('i', { style: 'color: teal' }, res),
@@ -107,6 +104,7 @@ function onNewUserClick() {
       })
     })
   } else {
+    // 新添
     userStore.fetchNewUser(newUserForm).then((res: any) => {
       ElNotification({
         title: '提示',
