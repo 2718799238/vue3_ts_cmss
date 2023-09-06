@@ -4,6 +4,14 @@ export const contentConfig = {
   newPage: '新添角色',
   formList: [
     {
+      type: 'selection',
+      label: '选择'
+    },
+    {
+      type: 'index',
+      label: '序号'
+    },
+    {
       type: 'default',
       label: '角色名称',
       prop: 'name',
@@ -15,6 +23,7 @@ export const contentConfig = {
       prop: 'intro',
       initialValue: 'aaa'
     },
+
     {
       type: 'time',
       label: '创建时间',
@@ -26,6 +35,10 @@ export const contentConfig = {
       label: '更新时间',
       prop: 'updateAt',
       initialValue: ''
+    },
+    {
+      type: 'buttom',
+      label: '操作'
     }
   ]
 }

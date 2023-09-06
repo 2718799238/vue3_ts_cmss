@@ -10,10 +10,23 @@
       :contentConfig="contentConfig"
       @on-edit-page="onEdit"
       @on-new-page="onNew"
-    ></pageContent>
-    <pageModal ref="modalRef" :modalConfig="modalConfig">
+    >
+    </pageContent>
+    <pageModal
+      ref="modalRef"
+      :other-info="otherInfo"
+      :modalConfig="modalConfig"
+    >
       <template #menulist>
-        <el-tree :data="tree" show-checkbox node-key="id" />
+        <el-tree
+          ref="treeRef"
+          class="tree"
+          :props="{ children: 'children', label: 'name' }"
+          :data="subMenu"
+          show-checkbox
+          @check="handleTreeCheck"
+          node-key="id"
+        />
       </template>
     </pageModal>
   </div>
@@ -28,77 +41,48 @@ import { contentConfig } from './config/contentConfig'
 
 import pageModal from '@/components/page-modal/page-modal.vue'
 import { modalConfig } from './config/modalConfig'
-import { ref, toRefs } from 'vue'
 
 import type { ElTree } from 'element-plus'
-import { usePageStore } from '@/store/module/main/page'
-import { localCache } from '@/utils/cache'
-const contentRef = ref<InstanceType<typeof pageContent>>()
+import { useMainStore } from '@/store/module/main'
 
-function onSearch(pageName: string, queryInfo: any) {
-  contentRef.value?.handlePageList(pageName, queryInfo)
-}
+import { usePageContent } from '@/hooks/page-content'
+import { usePageModal } from '@/hooks/page-modal'
 
-function onReset(pageName: string, queryInfo: any) {
-  let forms: any = {}
-  if (queryInfo.parentId === '') {
-    const { parentId, ...form } = queryInfo
-    forms = form
-  }
-  contentRef.value?.handelOnclick(pageName, forms)
-}
-
-const modalRef = ref<InstanceType<typeof pageModal>>()
-
-function onEdit(pageName: string, form: any) {
-  modalRef.value?.onClickNew(pageName, form)
-}
-function onNew(pageName: string, form: any) {
-  modalRef.value?.onClickNew(pageName, form)
-}
-
+import { storeToRefs } from 'pinia'
+import { mapMenusIds } from '@/utils/mapMenusRouter'
+import { nextTick, ref } from 'vue'
+const { contentRef, onReset, onSearch } = usePageContent()
+const { modalRef, onEdit, onNew } = usePageModal(editCallBack)
 // 菜单权限
-interface ITree {
-  id: number
-  label: string
-  isLeaf: boolean
-  children?: ITree[]
+// interface ITree {
+//   id: number
+//   label: string
+//   isLeaf: boolean
+//   children?: ITree[]
+// }
+const mainStore = useMainStore()
+const { subMenu } = storeToRefs(mainStore)
+const otherInfo: any = { menuList: [] }
+function handleTreeCheck(e1: any, e2: any) {
+  otherInfo.menuList = [
+    ...otherInfo.menuList,
+    ...e2.halfCheckedKeys,
+    ...e2.checkedKeys
+  ]
 }
-const pageStore = usePageStore()
-pageStore.fetchSubMenus()
-const { subMenus } = toRefs(pageStore)
-const userMenus = localCache.getCache('userMenus')
-const tree: any[] = []
-if (subMenus.value) {
-  for (const menus of subMenus.value) {
-    const id = menus.id
-    const label = menus.name
-    const isLeaf = false
-    const header: ITree = {
-      id,
-      label,
-      isLeaf,
-      children: []
-    }
-    for (const menuChildren of menus.children) {
-      const id = menuChildren.id
-      const label = menuChildren.name
-      const isLeaf = false
-      const children: ITree = {
-        id,
-        label,
-        isLeaf,
-        children: []
-      }
-      header.children!.push(children)
-    }
-    tree.push(header)
-    console.log(tree)
-  }
+const treeRef = ref<InstanceType<typeof ElTree>>()
+function editCallBack(itemDate: any) {
+  nextTick(() => {
+    console.log(itemDate)
+
+    const menuIds = mapMenusIds(itemDate.form.menuList)
+    treeRef.value?.setCheckedKeys(menuIds)
+  })
 }
 </script>
 
 <style scoped>
-.role {
+.tree {
+  margin-left: 100px;
 }
 </style>

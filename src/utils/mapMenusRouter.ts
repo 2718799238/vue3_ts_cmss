@@ -1,4 +1,5 @@
 import router from '@/router'
+
 import { type RouteRecordRaw } from 'vue-router'
 
 // 第一次打开main的路由路径
@@ -56,4 +57,20 @@ export function mapPathToMenu(path: string, userMenus: any[]) {
       }
     }
   }
+}
+
+export function mapMenusIds(userMenus: any) {
+  const ids: number[] = []
+  // 回调函数
+  function recursion(userMenus: any) {
+    for (const item of userMenus) {
+      if (item.children) {
+        recursion(item.children)
+      } else {
+        ids.push(item.id)
+      }
+    }
+  }
+  recursion(userMenus)
+  return ids
 }

@@ -1,4 +1,8 @@
-import { getDepartList, getRoleList } from '@/server/module/main/main'
+import {
+  getDepartList,
+  getRoleList,
+  getSubMenus
+} from '@/server/module/main/main'
 import { defineStore } from 'pinia'
 
 interface IMain {
@@ -11,13 +15,15 @@ interface IMain {
     list: any[]
     totalCount: number
   }
+  subMenu: any[]
 }
-const useMainStore = defineStore('mainStore', {
+export const useMainStore = defineStore('mainStore', {
   state: (): IMain => {
     return {
       Breadcrumb: [],
       department: { list: [], totalCount: 6 },
-      roleList: { list: [], totalCount: 6 }
+      roleList: { list: [], totalCount: 6 },
+      subMenu: []
     }
   },
   actions: {
@@ -43,8 +49,9 @@ const useMainStore = defineStore('mainStore', {
       const roles = await getRoleList()
       this.roleList.list = roles.data?.data?.list
       this.roleList.totalCount = roles.data.data.totalCount
+
+      const subMenu = await getSubMenus()
+      this.subMenu = subMenu.data.data.list
     }
   }
 })
-
-export { useMainStore }

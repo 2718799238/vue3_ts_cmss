@@ -71,6 +71,7 @@ interface IProps {
     editTitle: string
     formList: any[]
   }
+  otherInfo: any
 }
 const props = defineProps<IProps>()
 let newPageForm = reactive<any>({})
@@ -87,19 +88,18 @@ function onClickNew(pageNames: string, form: any) {
   isShowModal.value = !isShowModal.value
   isEdit.value = form.isEdit
   if (form.isEdit && form.form) {
-    console.log('编辑')
+    // console.log('编辑')
     for (const key in newPageForm) {
       newPageForm[key] = form.form[key]
     }
     newPageForm.id = form.form.id
   } else {
-    console.log('新增')
+    // console.log('新增')
 
     for (const key in newPageForm) {
       newPageForm[key] = ''
     }
   }
-  console.log(newPageForm)
 }
 // 部门列表
 const mainStore = useMainStore()
@@ -110,8 +110,12 @@ function onNewPageClick() {
   isShowModal.value = false
   // console.log(newPageForm)
   // 编辑
+  let form = {}
+  if (props.otherInfo) {
+    form = { ...newPageForm, ...props.otherInfo }
+  }
   if (isEdit.value) {
-    pageStore.fetchEditPage(pageName, newPageForm).then((res: any) => {
+    pageStore.fetchEditPage(pageName, form).then((res: any) => {
       ElNotification({
         title: '提示',
         message: h('i', { style: 'color: teal' }, res),
@@ -120,9 +124,8 @@ function onNewPageClick() {
     })
   } else {
     // 新添
-    console.log(newPageForm)
-
-    pageStore.fetchNewPage(pageName, newPageForm).then((res: any) => {
+    // console.log(newPageForm)
+    pageStore.fetchNewPage(pageName, form).then((res: any) => {
       ElNotification({
         title: '提示',
         message: h('i', { style: 'color: teal' }, res),

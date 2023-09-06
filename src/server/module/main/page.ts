@@ -1,12 +1,5 @@
 import { dongRequest } from '@/server'
 
-export function getPageList(pageName: string, queryInfo: any) {
-  return dongRequest.post({
-    url: `/${pageName}/list`,
-    data: queryInfo
-  })
-}
-
 export function newPage(pageName: string, queryInfo: any) {
   return dongRequest.post({
     url: `/${pageName}`,
@@ -22,14 +15,15 @@ export function delPage(pageName: string, queryInfo: any) {
 }
 
 export function editPage(pageName: string, queryInfo: any) {
+  const { id, ...info } = queryInfo
   return dongRequest.patch({
-    url: `/${pageName}/${queryInfo.id}`,
-    data: queryInfo
+    url: `/${pageName}/${id}`,
+    data: info
   })
 }
-
-export function subMenu() {
+export function getPageList(pageName: string, queryInfo: any) {
   return dongRequest.post({
-    url: '/menu/list'
+    url: `/${pageName}/list`,
+    data: queryInfo
   })
 }

@@ -2,8 +2,7 @@ import {
   delPage,
   editPage,
   getPageList,
-  newPage,
-  subMenu
+  newPage
 } from '@/server/module/main/page'
 import { defineStore } from 'pinia'
 
@@ -27,21 +26,17 @@ export const usePageStore = defineStore('page', {
     async fetchNewPage(pageName: string, queryInfo: any) {
       const res = await newPage(pageName, queryInfo)
       this.fetchGetPageList(pageName, {})
-      return res.data.data
+      return res.data?.data
     },
     async fetchDelPage(pageName: string, queryInfo: any) {
       const res = await delPage(pageName, queryInfo)
       this.fetchGetPageList(pageName, {})
-      return res.data.data
+      return res.data?.data
     },
     async fetchEditPage(pageName: string, queryInfo: any) {
-      this.fetchGetPageList(pageName, {})
       const res = await editPage(pageName, queryInfo)
-      return res.data.data
-    },
-    async fetchSubMenus() {
-      const res = await subMenu()
-      this.subMenus = res.data.data.list
+      this.fetchGetPageList(pageName, {})
+      return res.data?.data
     }
   }
 })

@@ -1,10 +1,13 @@
 <template>
   <div class="menu">
-    <h2>menu</h2>
+    <pageContent :content-config="contentConfig"></pageContent>
   </div>
 </template>
 
-<script setup lang="ts" name="menu"></script>
+<script setup lang="ts" name="menu">
+import pageContent from '@/components/page-content/page-content.vue'
+import { contentConfig } from './config/contentConfig'
+</script>
 
 <style scoped>
 .menu {

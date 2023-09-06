@@ -9,14 +9,31 @@
       </div>
     </div>
     <div class="body">
-      <el-table :data="pageList" border style="width: 100%; text-align: center">
-        <el-table-column align="center" type="selection" width="52" />
-        <el-table-column align="center" type="index" label="序号" width="55" />
+      <el-table
+        :data="pageList"
+        border
+        style="width: 100%; text-align: center"
+        row-key="id"
+      >
         <template v-for="item in contentConfig.formList" :key="item.prop">
           <template v-if="item.type === 'default'">
             <el-table-column
               align="center"
               :prop="item.prop"
+              :label="item.label"
+            />
+          </template>
+          <template v-if="item.type === 'selection'">
+            <el-table-column
+              align="center"
+              :type="item.type"
+              :label="item.label"
+            />
+          </template>
+          <template v-if="item.type === 'index'">
+            <el-table-column
+              align="center"
+              :type="item.type"
               :label="item.label"
             />
           </template>
@@ -32,35 +49,44 @@
               </template>
             </el-table-column>
           </template>
-        </template>
-        <el-table-column align="center" width="150" label="操作">
-          <template #default="scope">
-            <el-button
-              @click="onEditPage(scope.row)"
-              style="padding: 0"
-              text
-              type="primary"
-            >
-              <el-icon><Edit /></el-icon>
-              <span>编辑</span>
-            </el-button>
-            <el-button
-              @click="onRemoving(scope.row.id)"
-              style="padding: 0"
-              text
-              type="danger"
-            >
-              <el-icon><Delete /></el-icon>
-              <span>删除</span>
-            </el-button>
+          <template v-if="item.type === 'buttom'">
+            <el-table-column align="center" width="150" label="操作">
+              <template #default="scope">
+                <el-button
+                  @click="onEditPage(scope.row)"
+                  style="padding: 0"
+                  text
+                  type="primary"
+                >
+                  <el-icon><Edit /></el-icon>
+                  <span>编辑</span>
+                </el-button>
+                <el-button
+                  @click="onRemoving(scope.row.id)"
+                  style="padding: 0"
+                  text
+                  type="danger"
+                >
+                  <el-icon><Delete /></el-icon>
+                  <span>删除</span>
+                </el-button>
+              </template>
+            </el-table-column>
           </template>
-        </el-table-column>
+          <template v-if="item.type === 'custom'">
+            <el-table-column align="center" v-bind="item">
+              <template #default="scope">
+                <slot :name="item.slotName" v-bind="scope"></slot>
+              </template>
+            </el-table-column>
+          </template>
+        </template>
       </el-table>
     </div>
-    <div class="pagination">
+    <div class="pagination" v-if="!(pageName === 'menu')">
       <el-pagination
         v-model:current-page="currentPage"
-        v-model:page-size="pageSize"
+        :page-size="pageSize"
         :page-sizes="[5, 10, 30]"
         small
         layout="total, sizes, prev, pager, next, jumper"
@@ -141,7 +167,7 @@ function onNewPage(form: object) {
 
 // 编辑
 function onEditPage(form: object) {
-  console.log(form)
+  // console.log(form)
   emit('onEditPage', pageName, { isEdit: true, form })
 }
 </script>

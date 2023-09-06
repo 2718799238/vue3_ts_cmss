@@ -11,3 +11,9 @@ export function getRoleList() {
     url: '/role/list'
   })
 }
+
+export function getSubMenus() {
+  return dongRequest.post({
+    url: '/menu/list'
+  })
+}
