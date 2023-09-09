@@ -4,8 +4,9 @@ import {
   getPageList,
   newPage
 } from '@/server/module/main/page'
+import { useMainStore } from '../main'
 import { defineStore } from 'pinia'
-
+const mainStore = useMainStore()
 interface IPage {
   pageList: any[]
   total: number
@@ -26,6 +27,7 @@ export const usePageStore = defineStore('page', {
     async fetchNewPage(pageName: string, queryInfo: any) {
       const res = await newPage(pageName, queryInfo)
       this.fetchGetPageList(pageName, {})
+      mainStore.fetchgetDorR()
       return res.data?.data
     },
     async fetchDelPage(pageName: string, queryInfo: any) {

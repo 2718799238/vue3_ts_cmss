@@ -52,7 +52,7 @@ import { storeToRefs } from 'pinia'
 import { mapMenusIds } from '@/utils/mapMenusRouter'
 import { nextTick, ref } from 'vue'
 const { contentRef, onReset, onSearch } = usePageContent()
-const { modalRef, onEdit, onNew } = usePageModal(editCallBack)
+const { modalRef, onEdit, onNew } = usePageModal(editCallBack, editCallBack2)
 // 菜单权限
 // interface ITree {
 //   id: number
@@ -64,19 +64,20 @@ const mainStore = useMainStore()
 const { subMenu } = storeToRefs(mainStore)
 const otherInfo: any = { menuList: [] }
 function handleTreeCheck(e1: any, e2: any) {
-  otherInfo.menuList = [
-    ...otherInfo.menuList,
-    ...e2.halfCheckedKeys,
-    ...e2.checkedKeys
-  ]
+  otherInfo.menuList = [...e2.halfCheckedKeys, ...e2.checkedKeys]
 }
 const treeRef = ref<InstanceType<typeof ElTree>>()
+// 获取角色菜单树选项
 function editCallBack(itemDate: any) {
   nextTick(() => {
-    console.log(itemDate)
-
     const menuIds = mapMenusIds(itemDate.form.menuList)
     treeRef.value?.setCheckedKeys(menuIds)
+  })
+}
+// 新建角色菜单树清零
+function editCallBack2(itemDate: any) {
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys([])
   })
 }
 </script>

@@ -35,12 +35,16 @@ export function mapMenusRouter(userMenus: any[]) {
       if (route) {
         mapRouter.push(route)
         if (!firstPage) {
+          console.log(userMenus)
+
+          console.log(menu)
+
           firstPage = menu
         }
       }
     }
   }
-  console.log(mapRouter)
+
   return mapRouter
 }
 /**
@@ -58,7 +62,11 @@ export function mapPathToMenu(path: string, userMenus: any[]) {
     }
   }
 }
-
+/**
+ *
+ * @param userMenus 用户菜单
+ * @returns 用户菜单权限的id
+ */
 export function mapMenusIds(userMenus: any) {
   const ids: number[] = []
   // 回调函数
@@ -73,4 +81,25 @@ export function mapMenusIds(userMenus: any) {
   }
   recursion(userMenus)
   return ids
+}
+/**
+ *
+ * @param userMenus 用户菜单
+ * @returns 返回所拥有的操作权限
+ */
+export function mapPermission(userMenus: any) {
+  const userPermission: string[] = []
+
+  // 回调函数
+  function recursion(userMenus: any) {
+    for (const item of userMenus) {
+      if (item.type === 1 || item.type === 2) {
+        recursion(item.children ?? [])
+      } else {
+        userPermission.push(item.permission)
+      }
+    }
+  }
+  recursion(userMenus)
+  return userPermission
 }

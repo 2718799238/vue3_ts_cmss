@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <div class="search" v-if="isQuery">
     <el-form ref="elFormRef" :model="searchForm" class="demo-form-inline">
       <el-row :gutter="30">
         <template v-for="(item, index) in searchConfig.formItem" :key="index">
@@ -50,6 +50,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import usePermission from '@/hooks/userPermission'
 interface IProps {
   searchConfig: {
     pageName: string
@@ -64,7 +65,8 @@ for (let key = 0; key < props.searchConfig.formItem.length; key++) {
   const keys = props.searchConfig.formItem[key].prop
   searchForm[keys] = ''
 }
-
+// 权限const isCreate = usePermission(pageName, 'create')
+const isQuery = usePermission(pageName, 'query')
 // 表单重置
 const elFormRef = ref()
 const emit = defineEmits(['onSearch', 'resetForm'])

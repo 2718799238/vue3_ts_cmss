@@ -2,7 +2,7 @@
   <div class="user-content">
     <div class="header">
       <div class="title">{{ contentConfig.title }}</div>
-      <div class="add-user">
+      <div class="add-user" v-if="isCreate">
         <el-button @click="onNewPage" type="primary">{{
           contentConfig.newPage
         }}</el-button>
@@ -50,9 +50,15 @@
             </el-table-column>
           </template>
           <template v-if="item.type === 'buttom'">
-            <el-table-column align="center" width="150" label="操作">
+            <el-table-column
+              v-if="isUpdate || isDelete"
+              align="center"
+              width="150"
+              :label="item.label"
+            >
               <template #default="scope">
                 <el-button
+                  v-if="isUpdate"
                   @click="onEditPage(scope.row)"
                   style="padding: 0"
                   text
@@ -62,6 +68,7 @@
                   <span>编辑</span>
                 </el-button>
                 <el-button
+                  v-if="isDelete"
                   @click="onRemoving(scope.row.id)"
                   style="padding: 0"
                   text
@@ -103,7 +110,8 @@ import { usePageStore } from '@/store/module/main/page'
 import { formatUTC } from '@/utils/format'
 import { toRefs, ref, h } from 'vue'
 import { ElNotification } from 'element-plus'
-
+import usePermission from '@/hooks/userPermission'
+import { af } from 'element-plus/lib/locale/index.js'
 interface IProps {
   contentConfig: {
     pageName: string
@@ -121,6 +129,22 @@ const currentPage = ref(1)
 const pageSize = ref(10)
 handlePageList(pageName)
 const { pageList, total } = toRefs(pageStore)
+pageStore.$onAction(({ name, after }) => {
+  after(() => {
+    if (
+      name === 'fetchDelPage' ||
+      name === 'fetchNewPage' ||
+      name === 'fetchEditPage'
+    ) {
+      currentPage.value = 1
+    }
+  })
+})
+
+const isCreate = usePermission(pageName, 'create')
+const isDelete = usePermission(pageName, 'delete')
+const isUpdate = usePermission(pageName, 'update')
+const isQuery = usePermission(pageName, 'query')
 
 //查询
 defineExpose({ handlePageList, handelOnclick })

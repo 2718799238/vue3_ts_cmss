@@ -77,14 +77,14 @@ function toPage(url: string) {
   mainStore.mapPathToBread(url, userMenus)
 }
 
-// 第一次加载打开的menu
+// 第一次加载打开的匹配menu
 
 const firstMenu = computed(() => {
   const path = route.path
   const firstPath = mapPathToMenu(path, userMenus)
   mainStore.mapPathToBread(path, userMenus)
 
-  return firstPath.id + ''
+  return firstPath?.id + ''
 })
 
 // 面包些数据
@@ -104,6 +104,7 @@ const firstMenu = computed(() => {
     }
   }
 }
+
 .logo {
   height: 32px;
   padding-left: 20px;

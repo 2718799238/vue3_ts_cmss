@@ -6,19 +6,21 @@ import {
 } from '@/server/module/login'
 import { type IAccount } from '@/view/login/c-cpns/types/login_type'
 import { localCache } from '@/utils/cache'
-import { mapMenusRouter } from '../../utils/mapMenusRouter'
+import { mapMenusRouter, mapPermission } from '../../utils/mapMenusRouter'
 import router from '@/router'
 
 interface IState {
   token: string
   userInfo: any
   userMenus: any
+  userPermission: string[]
 }
 export const useLoginStore = defineStore('login', {
   state: (): IState => ({
     token: '',
     userInfo: {},
-    userMenus: []
+    userMenus: [],
+    userPermission: []
   }),
   actions: {
     async loginAccountAction(account: IAccount) {
@@ -37,6 +39,10 @@ export const useLoginStore = defineStore('login', {
       )
       // console.log(userMenusRes.data.data)
       this.userMenus = userMenusRes.data.data
+
+      // 获取用户权限信息
+      const userPermission = mapPermission(this.userMenus)
+      localCache.setCache('permisson', userPermission)
 
       // 把信息本地保存
 
