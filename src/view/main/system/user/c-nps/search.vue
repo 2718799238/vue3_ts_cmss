@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <div class="search" v-if="isQuery">
     <el-form ref="elFormRef" :model="searchForm" class="demo-form-inline">
       <el-row :gutter="30">
         <el-col :span="8">
@@ -68,7 +68,8 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-
+import usePermission from '@/hooks/userPermission'
+const isQuery = usePermission('users', 'query')
 const searchForm = reactive({
   userName: '',
   realName: '',

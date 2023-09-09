@@ -2,7 +2,7 @@
   <div class="user-modal">
     <el-dialog
       v-model="isShowModal"
-      :title="isEdit ? '编辑部门' : '新建部门'"
+      :title="isEdit ? modalConfig.editTitle : modalConfig.newTitle"
       width="30%"
       center
     >
@@ -71,7 +71,7 @@ interface IProps {
     editTitle: string
     formList: any[]
   }
-  otherInfo: any
+  otherInfo?: any
 }
 const props = defineProps<IProps>()
 let newPageForm = reactive<any>({})
@@ -101,19 +101,18 @@ function onClickNew(pageNames: string, form: any) {
     }
   }
 }
-// 部门列表
-const mainStore = useMainStore()
-const { department } = mainStore
+
 // 新建用户确定的点击
 const pageStore = usePageStore()
 function onNewPageClick() {
   isShowModal.value = false
-  // console.log(newPageForm)
+  console.log(newPageForm)
   // 编辑
   let form = {}
   if (props.otherInfo) {
     form = { ...newPageForm, ...props.otherInfo }
   }
+  form = { ...newPageForm }
   if (isEdit.value) {
     pageStore.fetchEditPage(pageName, form).then((res: any) => {
       ElNotification({

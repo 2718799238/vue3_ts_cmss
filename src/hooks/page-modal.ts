@@ -10,6 +10,7 @@ export function usePageModal(
 
   function onEdit(pageName: string, form: any) {
     modalRef.value?.onClickNew(pageName, form)
+
     if (editCallback) editCallback(form)
   }
   function onNew(pageName: string, form: any) {

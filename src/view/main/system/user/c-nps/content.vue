@@ -3,7 +3,9 @@
     <div class="header">
       <div class="title">用户列表</div>
       <div class="add-user">
-        <el-button @click="handlerNewUser" type="primary">添加用户</el-button>
+        <el-button v-if="isCreate" @click="handlerNewUser" type="primary"
+          >添加用户</el-button
+        >
       </div>
     </div>
     <div class="body">
@@ -35,9 +37,17 @@
               plain
               v-if="scope.row.enable == 1"
               type="primary"
+              @click="handleUse(scope.row)"
               >启用</el-button
             >
-            <el-button plain size="small" v-else type="danger">禁用</el-button>
+            <el-button
+              @click="handleUse(scope.row)"
+              plain
+              size="small"
+              v-else
+              type="danger"
+              >禁用</el-button
+            >
           </template>
         </el-table-column>
         <el-table-column
@@ -63,6 +73,7 @@
         <el-table-column align="center" width="150" label="操作">
           <template #default="scope">
             <el-button
+              v-if="isUpdate"
               @click="onEdit(scope.row)"
               style="padding: 0"
               text
@@ -72,6 +83,7 @@
               <span>编辑</span>
             </el-button>
             <el-button
+              v-if="isDelete"
               @click="onRemoving(scope.row.id)"
               style="padding: 0"
               text
@@ -104,6 +116,7 @@ import { useUserStore } from '@/store/module/main/user'
 import { formatUTC } from '@/utils/format'
 import { toRefs, ref, h } from 'vue'
 import { ElNotification } from 'element-plus'
+import usePermission from '@/hooks/userPermission'
 
 const emit = defineEmits(['handlerNewUser', 'onEdit'])
 const userStore = useUserStore()
@@ -111,6 +124,22 @@ const currentPage = ref(1)
 const pageSize = ref(10)
 handleUserList({})
 const { userList, total } = toRefs(userStore)
+
+userStore.$onAction(({ name, after }) => {
+  after(() => {
+    if (
+      name === 'fetchDelPage' ||
+      name === 'fetchNewPage' ||
+      name === 'fetchEditPage'
+    ) {
+      currentPage.value = 1
+    }
+  })
+})
+
+const isCreate = usePermission('users', 'create')
+const isDelete = usePermission('users', 'delete')
+const isUpdate = usePermission('users', 'update')
 //查询
 defineExpose({ handleUserList })
 function handleUserList(form: object) {
@@ -150,6 +179,21 @@ function handlerNewUser() {
 function onEdit(form: object) {
   console.log(form)
   emit('onEdit', { isEdit: true, form })
+}
+
+//启用与禁用
+function handleUse(form: any) {
+  const f = form
+  delete f.createAt
+  delete f.updateAt
+
+  if (f.enable === 1) {
+    f.enable = 0
+  } else {
+    f.enable = 1
+  }
+
+  userStore.fetchEditUser(f)
 }
 </script>
 

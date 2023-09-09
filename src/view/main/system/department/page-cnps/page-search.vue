@@ -31,7 +31,7 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :offset="19">
+        <el-col :span="5" :offset="19">
           <el-button @click="resetForm" type="default">
             <el-icon><Refresh /></el-icon>
             <span>重置</span>

@@ -1,7 +1,7 @@
 export const contentConfig = {
-  pageName: 'role',
-  title: '角色列表',
-  newPage: '新添角色',
+  pageName: 'category',
+  title: '商品列表',
+  newPage: '新建商品',
   formList: [
     {
       type: 'selection',
@@ -11,21 +11,14 @@ export const contentConfig = {
     {
       type: 'index',
       label: '序号',
-      size: 60
+      size: 80
     },
     {
       type: 'default',
-      label: '角色名称',
+      label: '类别名称',
       prop: 'name',
       initialValue: 'aaa',
-      size: 150
-    },
-    {
-      type: 'default',
-      label: '角色权限',
-      prop: 'intro',
-      initialValue: 'aaa',
-      size: 150
+      size: 200
     },
 
     {
@@ -33,14 +26,14 @@ export const contentConfig = {
       label: '创建时间',
       prop: 'createAt',
       initialValue: '',
-      size: 300
+      size: 350
     },
     {
       type: 'time',
       label: '更新时间',
       prop: 'updateAt',
       initialValue: '',
-      size: 300
+      size: 350
     },
     {
       type: 'buttom',

@@ -12,7 +12,11 @@
         <el-table-column align="center" type="index" label="序号" width="55" />
         <el-table-column align="center" prop="name" label="部门名称" />
         <el-table-column align="center" prop="leader" label="部门领导" />
-        <el-table-column align="center" prop="parentId" label="上级部门" />
+        <el-table-column align="center" prop="parentId" label="上级部门">
+          <template #default="scoped">
+            {{ pdepartment(scoped.row.parentId) }}
+          </template>
+        </el-table-column>
         <el-table-column
           align="center"
           prop="createAt"
@@ -77,6 +81,9 @@ import { usePageStore } from '@/store/module/main/page'
 import { formatUTC } from '@/utils/format'
 import { toRefs, ref, h } from 'vue'
 import { ElNotification } from 'element-plus'
+import { useMainStore } from '@/store/module/main'
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 
 const emit = defineEmits(['onNewPage', 'onEditPage'])
 const pageStore = usePageStore()
@@ -134,6 +141,22 @@ function onEditPage(form: object) {
   console.log(form)
   emit('onEditPage', 'department', { isEdit: true, form })
 }
+
+// 部门映射
+const mainStore = useMainStore()
+const { department } = storeToRefs(mainStore)
+const pdepartment = computed(() => {
+  return (id: number) => {
+    let departments = ''
+    department.value.list.find((item) => {
+      if (item.id === id) {
+        departments = item.name
+        return true
+      }
+    })
+    return departments
+  }
+})
 </script>
 
 <style scoped lang="less">

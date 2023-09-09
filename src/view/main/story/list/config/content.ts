@@ -1,44 +1,36 @@
 export const contentConfig = {
-  pageName: 'role',
-  title: '角色列表',
-  newPage: '新添角色',
+  pageName: 'story',
+  title: '故事列表',
   formList: [
     {
       type: 'selection',
       label: '选择',
-      size: 40
+      size: 80
     },
     {
       type: 'index',
       label: '序号',
-      size: 60
+      size: 80
     },
     {
       type: 'default',
-      label: '角色名称',
-      prop: 'name',
+      label: '故事标题',
+      prop: 'title',
       initialValue: 'aaa',
-      size: 150
+      size: 250
     },
     {
       type: 'default',
-      label: '角色权限',
-      prop: 'intro',
+      label: '我的故事',
+      prop: 'content',
       initialValue: 'aaa',
-      size: 150
+      size: 500
     },
 
     {
       type: 'time',
       label: '创建时间',
       prop: 'createAt',
-      initialValue: '',
-      size: 300
-    },
-    {
-      type: 'time',
-      label: '更新时间',
-      prop: 'updateAt',
       initialValue: '',
       size: 300
     },
