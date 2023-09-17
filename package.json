@@ -13,6 +13,11 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "@tiptap/extension-text-align": "^2.1.8",
+    "@tiptap/extension-underline": "^2.1.8",
+    "@tiptap/pm": "^2.1.8",
+    "@tiptap/starter-kit": "^2.1.8",
+    "@tiptap/vue-3": "^2.1.8",
     "axios": "^1.4.0",
     "countup.js": "^2.6.0",
     "dayjs": "^1.11.9",

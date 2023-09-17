@@ -125,18 +125,6 @@ const pageSize = ref(10)
 handleUserList({})
 const { userList, total } = toRefs(userStore)
 
-userStore.$onAction(({ name, after }) => {
-  after(() => {
-    if (
-      name === 'fetchDelPage' ||
-      name === 'fetchNewPage' ||
-      name === 'fetchEditPage'
-    ) {
-      currentPage.value = 1
-    }
-  })
-})
-
 const isCreate = usePermission('users', 'create')
 const isDelete = usePermission('users', 'delete')
 const isUpdate = usePermission('users', 'update')

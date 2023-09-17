@@ -21,7 +21,7 @@
           <template v-if="item.type === 'default'">
             <el-table-column
               min-width="100"
-              show-overflow-tooltip="true"
+              :show-overflow-tooltip="true"
               align="center"
               :prop="item.prop"
               :label="item.label"

@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BarEchart: typeof import('./src/components/page-echarts/src/bar-echart.vue')['default']
+    Editor: typeof import('./src/components/editor/editor.vue')['default']
+    EditorBar: typeof import('./src/components/editor/editorBar.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']

@@ -11,25 +11,43 @@
       <h3 class="title">技术栈</h3>
       <div class="content">
         <ul>
-          <li style="list-style: circle">开发工具：VScode</li>
-          <li style="list-style: circle">语言：TypeScript 4.x +JavaScript</li>
-          <li style="list-style: circle">构建工具：vite3.x/Webpack 5.x</li>
-          <li style="list-style: circle">前端框架：Vue3.x +setup</li>
-          <li style="list-style: circle">路由工具：VueRouter 4.x</li>
-          <li style="list-style: circle">状态管理：Pinia</li>
-          <li style="list-style: circle">UI框架：Element Plus</li>
-          <li style="list-style: circle">可视化：Echart5.x</li>
-          <li style="list-style: circle">
+          <li style="list-style: circle; margin-top: 10px">开发工具：VScode</li>
+          <li style="list-style: circle; margin-top: 10px">
+            语言：TypeScript 4.x +JavaScript
+          </li>
+          <li style="list-style: circle; margin-top: 10px">
+            构建工具：vite3.x/Webpack 5.x
+          </li>
+          <li style="list-style: circle; margin-top: 10px">
+            前端框架：Vue3.x +setup
+          </li>
+          <li style="list-style: circle; margin-top: 10px">
+            路由工具：VueRouter 4.x
+          </li>
+          <li style="list-style: circle; margin-top: 10px">状态管理：Pinia</li>
+          <li style="list-style: circle; margin-top: 10px">
+            UI框架：Element Plus
+          </li>
+          <li style="list-style: circle; margin-top: 10px">
+            可视化：Echart5.x
+          </li>
+          <li style="list-style: circle; margin-top: 10px">
             工具库：@vueuse/core +dayjs +countup.js
           </li>
-          <li style="list-style: circle">css预编译：sass/less</li>
-          <li style="list-style: circle">HTTP工具：Axios</li>
-          <li style="list-style: circle">git Hook：</li>
-          <li style="list-style: circle">
+          <li style="list-style: circle; margin-top: 10px">
+            css预编译：sass/less
+          </li>
+          <li style="list-style: circle; margin-top: 10px">HTTP工具：Axios</li>
+          <li style="list-style: circle; margin-top: 10px">git Hook：</li>
+          <li style="list-style: circle; margin-top: 10px">
             代码规范：EditorConfig+Prettier+ESLint
           </li>
-          <li style="list-style: circle">提交规范：Commitizen+commitlint</li>
-          <li style="list-style: circle">自动部署：Centos+jenkins+Nginx</li>
+          <li style="list-style: circle; margin-top: 10px">
+            提交规范：Commitizen+commitlint
+          </li>
+          <li style="list-style: circle; margin-top: 10px">
+            自动部署：Centos+jenkins+Nginx
+          </li>
         </ul>
       </div>
     </div>

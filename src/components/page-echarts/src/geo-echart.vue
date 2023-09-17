@@ -30,7 +30,7 @@ let options = computed<EChartsOption>(() => {
       textStyle: {
         color: '#fff'
       },
-      color: '#fff',
+
       inRange: {
         color: ['lightskyblue', 'yellow', 'orangered']
       }
