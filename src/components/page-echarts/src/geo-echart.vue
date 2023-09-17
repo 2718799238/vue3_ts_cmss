@@ -35,6 +35,7 @@ let options = computed<EChartsOption>(() => {
         color: ['lightskyblue', 'yellow', 'orangered']
       }
     },
+
     series: [
       {
         type: 'map',

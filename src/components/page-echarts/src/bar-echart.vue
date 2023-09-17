@@ -31,6 +31,7 @@ let options = computed<EChartsOption>(() => {
     xAxis: {
       data: xName.value,
       axisLabel: {
+        
         inside: true,
         color: '#fff'
       },
